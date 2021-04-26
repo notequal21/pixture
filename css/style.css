@@ -981,7 +981,7 @@ body._lock {
 }
 
 .main {
-  background-image: url(../img/main/bg.png);
+  background-image: url(../img/main/bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -1493,7 +1493,7 @@ body._lock {
 
 .passion {
   margin: 20px 0 0 80px;
-  background-image: url(../img/passion/bg.png);
+  background-image: url(../img/passion/bg.jpg);
 }
 
 .passion .main-body__name {
@@ -1621,7 +1621,7 @@ body._lock {
 }
 
 .creator {
-  background-image: url(../img/creator/bg.png);
+  background-image: url(../img/creator/bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
