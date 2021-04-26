@@ -286,7 +286,6 @@ h6 {
 
 .swiper-container-css-mode > .swiper-wrapper {
   overflow: auto;
-  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
@@ -316,9 +315,7 @@ h6 {
 .swiper-button-prev {
   position: absolute;
   top: 50%;
-  width: calc(var(--swiper-navigation-size)/ 44 * 27);
   height: var(--swiper-navigation-size);
-  margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
   z-index: 10;
   cursor: pointer;
   display: -webkit-box;
@@ -1890,7 +1887,7 @@ body._lock {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    gap: 10;
+    gap: 10px;
   }
 
   .text-body__col p {
