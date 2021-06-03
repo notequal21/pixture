@@ -1,43 +1,103 @@
 
-// ---- native JS
+
+// JQ
+
+if (document.documentElement.clientWidth > 1000) { // disable script if resolution less than 1000px 
+
+var $menu = $('.Menu-list'),
+    $item = $('.Menu-list-item'),
+    w = $(window).width(), //window width
+    h = $(window).height(); //window height
+
+$(window).on('mousemove', function(e) {
+  var offsetX = 0.5 - e.pageX / w, //cursor position X
+      offsetY = 0.5 - e.pageY / h, //cursor position Y
+      dy = e.pageY - h / 2, //@h/2 = center of poster
+      dx = e.pageX - w / 2, //@w/2 = center of poster
+      theta = Math.atan2(dy, dx), //angle between cursor and center of poster in RAD
+      angle = theta * 180 / Math.PI - 90, //convert rad in degrees
+      offsetPoster = $menu.data('offset'),
+      transformPoster = 'translate3d(0, ' + -offsetX * offsetPoster + 'px, 0) rotateX(' + (-offsetY * offsetPoster) + 'deg) rotateY(' + (offsetX * (offsetPoster * 2)) + 'deg)'; //poster transform
+
+  //get angle between 0-360
+  if (angle < 0) {
+    angle = angle + 360;
+  }
+
+  //poster transform
+  $menu.css('transform', transformPoster);
+
+  //parallax for each layer
+  $item.each(function() {
+    var $this = $(this),
+        offsetLayer = $this.data('offset') || 0,
+        transformLayer = 'translate3d(' + offsetX * offsetLayer + 'px, ' + offsetY * offsetLayer + 'px, 20px)';
+
+    $this.css('transform', transformLayer);
+  });
+});
+
+}
+
+// Native JS
+
+let loader = document.querySelector('.preloader');
+
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        loader.classList.add('_load');
+        body.classList.remove('_lock');
+        animations();
+        // anchor();
+        // setTimeout(() => {
+        //     animations()
+        // }, 100);
+    }, 1000);
+});
 
 const animItems = document.querySelectorAll('._anim-items');
 
-if (animItems.length > 0) {
-    window.addEventListener('scroll', animOnScroll);
-    function animOnScroll() {
-        for (let index = 0; index < animItems.length; index++) {
-            const animItem = animItems[index];
-            const animItemHeight = animItem.offsetHeight;
-            const animItemOffset = offset(animItem).top;
-            const animStart = 4;
+let animations = () => {
 
-            let animItemPoint = window.innerHeight - animItemHeight / animStart;
-            if (animItemHeight > window.innerHeight) {
-                animItemPoint = window.innerHeight - window.innerHeight / animStart;
-            }
-
-            if ((pageYOffset > animItemOffset - animItemPoint) && pageYOffset < (animItemOffset + animItemHeight)) {
-                animItem.classList.add('_active');
-            } else {
-                if (!animItem.classList.contains('_anim-no-hide')) {
-                    animItem.classList.remove('_active');
+    if (animItems.length > 0) {
+        window.addEventListener('scroll', animOnScroll);
+        function animOnScroll() {
+            for (let index = 0; index < animItems.length; index++) {
+                const animItem = animItems[index];
+                const animItemHeight = animItem.offsetHeight;
+                const animItemOffset = offset(animItem).top;
+                const animStart = 4;
+    
+                let animItemPoint = window.innerHeight - animItemHeight / animStart;
+                if (animItemHeight > window.innerHeight) {
+                    animItemPoint = window.innerHeight - window.innerHeight / animStart;
+                }
+    
+                if ((pageYOffset > animItemOffset - animItemPoint) && pageYOffset < (animItemOffset + animItemHeight)) {
+                    animItem.classList.add('_active');
+                } else {
+                    if (!animItem.classList.contains('_anim-no-hide')) {
+                        animItem.classList.remove('_active');
+                    }
                 }
             }
         }
+    
+        function offset(el) {
+            const rect = el.getBoundingClientRect(), 
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+        }
+        
+        setTimeout(() => {
+            animOnScroll();
+        }, 300);
     }
 
-    function offset(el) {
-        const rect = el.getBoundingClientRect(), 
-            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
-    }
-    
-    setTimeout(() => {
-        animOnScroll();
-    }, 300);
 }
+
+
 let btn = document.querySelector('.sidebar__btn');
 let viewport = document.querySelector('.viewport');
 let con = document.querySelector('.con');
@@ -88,6 +148,7 @@ con.addEventListener('click', () => {
         });
     }
 });
+
 
 const anchors = document.querySelectorAll('a[href*="#"]')
 
@@ -9807,8 +9868,6 @@ const swiper = new Swiper('.swiper-container', {
     grabCursor: true,
 });
 
-
-// ---- JQuery
 
 
 
